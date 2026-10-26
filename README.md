@@ -1,9 +1,5 @@
 # Sora — Inventory & Sales Management System
 
-Sistem Manajemen Inventaris & Penjualan (Point of Sale) berkinerja tinggi yang dibangun menggunakan **Laravel 11**, **MySQL 8 / MariaDB**, **Blade**, **Vanilla CSS**, dan **Chart.js**.
-
-Dirancang dengan estetika **Organic Modern Commerce** (khusus tema terang/light theme dengan palet terkurasi: Sage, Cream, Mustard, Brown, dan Navy) yang menjamin standar aksesibilitas WCAG 2.2 AA, integritas data, serta transaksi inventaris yang atomik.
-
 ---
 
 ## 1. Project Overview
@@ -19,8 +15,8 @@ Dirancang dengan estetika **Organic Modern Commerce** (khusus tema terang/light 
 
 Sebelum menjalankan aplikasi, pastikan komputer Anda telah memenuhi persyaratan berikut:
 
-- **PHP**: Versi 8.2 atau lebih baru (telah diuji pada PHP 8.5)
-- **Composer**: Versi 2.x
+- **PHP**: Versi 8.2 atau lebih baru
+- **Composer**: Versi 2.2.17 atau lebih baru
 - **Database**: MySQL 8.0+ atau MariaDB 10.11+
 - **Ekstensi PHP**: `pdo_mysql` / `pdo_mariadb`, `bcmath`, `ctype`, `fileinfo`, `json`, `mbstring`, `openssl`, `tokenizer`, `xml`, `sqlite3` (untuk pengujian otomatis)
 
@@ -41,12 +37,9 @@ composer install
 ## 4. Environment Setup
 
 1. **Import Database**:
-   - Buka **phpMyAdmin** di browser Anda atau gunakan terminal.
-   - Buat database baru bernama `sora_db` atau langsung import file SQL berikut:
-     ```text
-     database/sora_db.sql
-     ```
-   *(File ini secara otomatis membuat struktur 15 tabel lengkap dengan data demo awal).*
+    - Aktifkan MariaDB atau MySQL server.
+    - Buka **phpMyAdmin** di browser Anda atau gunakan terminal.
+    - Import file `database/sora_db.sql` untuk pembuatan database.
 
 2. **Salin File Environment**:
    ```bash
@@ -142,12 +135,10 @@ Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masi
 
 ## 8. Known Limitations
 
-1. **Khusus Tema Terang (Light Theme Only)**: Desain antarmuka secara sengaja dibuat eksklusif untuk mode terang; mode gelap tidak disediakan sesuai spesifikasi desain awal.
-2. **Format Mata Uang Tunggal**: Pemformatan harga dikhususkan untuk Rupiah Indonesia (`Rp 1.250.000`) dengan tipografi angka tabular (*tabular figures*).
-3. **Cakupan Toko Tunggal (*Single-Store*)**: Dirancang untuk manajemen satu toko/gudang utama; transfer antar cabang gudang (*multi-warehouse*) belum tercakup pada versi ini.
-4. **Koneksi Jaringan Lokal / Online POS**: Terminal POS memerlukan konektivitas ke server backend Laravel lokal/intranet (bukan aplikasi PWA *offline-first*).
-5. **Pembayaran Tunai / Langsung**: Sistem mencatat pembayaran langsung (kas/tunai); integrasi otomatis ke *payment gateway* pihak ketiga (seperti Midtrans/Xendit) belum terpasang.
-6. **Bebas Kompilasi Node.js**: Tidak memerlukan `npm run build` atau kompilator Vite di server; seluruh asset CSS dan JavaScript Vanilla langsung dilayani dari direktori `public/`.
+1. **Format Mata Uang Tunggal**: Pemformatan harga dikhususkan untuk Rupiah Indonesia.
+2. **Cakupan Toko Tunggal (*Single-Store*)**: Dirancang untuk manajemen satu toko/gudang utama.
+3. **Koneksi Jaringan Lokal / Online POS**: Terminal POS memerlukan konektivitas ke server backend Laravel lokal/intranet.
+4. **Pembayaran Tunai / Langsung**: Sistem mencatat pembayaran langsung.
 
 ---
 
