@@ -21,14 +21,14 @@ Before running the project, ensure your environment meets the following prerequi
 
 - **PHP**: 8.2 or higher (PHP 8.5 tested & supported)
 - **Composer**: 2.x
-- **Database**: MySQL 8.0+ or MariaDB 10.11+
+- **Database**: MySQL 8.0+ or MariaDB 10.11+ (dengan phpMyAdmin)
 - **PHP Extensions**: `pdo_mysql` / `pdo_mariadb`, `bcmath`, `ctype`, `fileinfo`, `json`, `mbstring`, `openssl`, `tokenizer`, `xml`, `sqlite3` (for testing)
 
 ---
 
 ## 3. Installation
 
-Clone the repository and install Composer dependencies:
+Clone repository dan install dependensi PHP melalui Composer:
 
 ```bash
 git clone https://github.com/Leon-2157/sora.git
@@ -38,19 +38,29 @@ composer install
 
 ---
 
-## 4. Environment Setup
+## 4. Environment & Database Setup
 
-1. Copy the example environment file:
+1. **Import Database ke phpMyAdmin**:
+   - Buka **phpMyAdmin** di browser Anda (`http://localhost/phpmyadmin`).
+   - Buat database baru bernama `sora_db` (atau langsung klik tab **Import**).
+   - Pilih dan import file SQL yang tersedia di project:
+     ```
+     database/sora_db.sql
+     ```
+   *(File ini secara otomatis membuat struktur 15 tabel dan mengisikan akun pengguna default).*
+
+2. **Salin File Environment**:
    ```bash
    cp .env.example .env
    ```
 
-2. Generate the unique application encryption key:
+3. **Generate Application Key**:
    ```bash
    php artisan key:generate
    ```
 
-3. Configure your database credentials in `.env`:
+4. **Sesuaikan Kredensial Database di `.env`**:
+   Buka file `.env` dan pastikan konfigurasi database sesuai dengan pengaturan MySQL/MariaDB lokal Anda:
    ```env
    APP_NAME=Sora
    APP_ENV=local
@@ -65,37 +75,33 @@ composer install
    DB_PASSWORD=
    ```
 
-4. Create the database in MariaDB / MySQL:
-   ```sql
-   CREATE DATABASE IF NOT EXISTS `sora_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   ```
-
 ---
 
 ## 5. Migration & Seeding
 
-Run database migrations to generate all 8 business tables and seed the default accounts and demo catalog:
+Setelah database diimport dan file `.env` disesuaikan, jalankan migrasi Laravel untuk memastikan seluruh tabel terdaftar:
 
 ```bash
-php artisan migrate --seed
+php artisan migrate
 ```
 
-> **Note**: To completely reset the database and re-seed sample data, run:
+> **Alternatif (Fresh Install & Demo Data)**:  
+> Jika ingin me-reset database dan men-generate ulang data katalog demo (produk, kategori, supplier) langsung via artisan CLI:
 > ```bash
 > php artisan migrate:fresh --seed
 > ```
 
-To start the local development server:
+Jalankan server aplikasi lokal:
 ```bash
 php artisan serve
 ```
-Access the application at [http://localhost:8000](http://localhost:8000).
+Buka aplikasi di web browser: [http://localhost:8000](http://localhost:8000).
 
 ---
 
 ## 6. Demo Accounts
 
-The database seeder automatically creates two role-based user accounts:
+Setelah import SQL atau seeder dijalankan, gunakan akun berikut untuk masuk:
 
 | Role | Email | Password | Permissions & Scope |
 |---|---|---|---|
@@ -156,10 +162,6 @@ php artisan test
 
 ---
 
-## Project Documentation
+## LICENSE
 
-Detailed design records and architectural specifications:
-- [System Architecture & ERD](docs/ARCHITECTURE.md)
-- [Design System & UI Tokens](docs/DESIGN.md)
-- [Product Requirements Document (PRD)](docs/PRD.md)
-- [Implementation Task Breakdown](docs/TASKS.md)
+[MIT](LICENSE)
