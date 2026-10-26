@@ -28,26 +28,26 @@
 
     <div class="form-group">
       <label for="email" class="form-label">Email Address <span class="required">*</span></label>
-      <input 
-        type="email" 
-        id="email" 
-        name="email" 
-        class="form-control @error('email') is-invalid @enderror" 
-        value="{{ old('email') }}" 
-        required 
-        autofocus 
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control @error('email') is-invalid @enderror"
+        value="{{ old('email') }}"
+        required
+        autofocus
         placeholder="name@company.com"
       >
     </div>
 
     <div class="form-group">
       <label for="password" class="form-label">Password <span class="required">*</span></label>
-      <input 
-        type="password" 
-        id="password" 
-        name="password" 
-        class="form-control @error('password') is-invalid @enderror" 
-        required 
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control @error('password') is-invalid @enderror"
+        required
         placeholder="••••••••"
       >
     </div>
@@ -63,13 +63,5 @@
       Sign In
     </button>
   </form>
-
-  <div style="margin-top: var(--space-8); padding-top: var(--space-5); border-top: 1px solid var(--border-light); font-size: 0.8125rem;">
-    <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Demo Accounts:</div>
-    <div style="display: flex; flex-direction: column; gap: 4px; color: var(--text-muted);">
-      <div>• <strong>Admin:</strong> <code>admin@sora.test</code> / <code>password</code></div>
-      <div>• <strong>Staff:</strong> <code>staff@sora.test</code> / <code>password</code></div>
-    </div>
-  </div>
 </div>
 @endsection
