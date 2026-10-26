@@ -6,99 +6,160 @@ Designed with the **Organic Modern Commerce** aesthetic (light theme only, curat
 
 ---
 
-## System Requirements
+## 1. Project Overview
 
-- **PHP**: 8.2 or higher (PHP 8.5 tested)
-- **Composer**: 2.x
-- **Database**: MySQL 8.0+ or MariaDB 10.11+
-- **Extensions**: `pdo_mysql`, `bcmath`, `ctype`, `fileinfo`, `json`, `mbstring`, `openssl`, `tokenizer`, `xml`
+**Sora** is an end-to-end web-based inventory and point-of-sale system tailored for retail and small-to-medium businesses. It bridges procurement workflows and retail sales with real-time stock synchronisation, strict role-based access control (Admin & Staff), and analytical insights into business revenue and inventory health.
+
+- **Stack**: Laravel 11.x, MariaDB 11.x / MySQL 8.x, Blade Templates, Vanilla CSS, Vanilla JavaScript, Chart.js (CDN).
+- **Architecture**: Service-oriented transaction pattern (`PurchaseService`, `SaleService`), atomic database transactions with row-level locking (`lockForUpdate()`), and Role-Based Access Control (`RoleMiddleware`).
 
 ---
 
-## Quick Start & Installation
+## 2. Requirements
 
-### 1. Database Setup
-Create database `sora_db` in MySQL / phpMyAdmin:
-```sql
-CREATE DATABASE `sora_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+Before running the project, ensure your environment meets the following prerequisites:
 
-Ensure user credentials are configured in `sora/.env`:
-```env
-DB_CONNECTION=mariadb
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=sora_db
-DB_USERNAME=root
-DB_PASSWORD=
-```
+- **PHP**: 8.2 or higher (PHP 8.5 tested & supported)
+- **Composer**: 2.x
+- **Database**: MySQL 8.0+ or MariaDB 10.11+
+- **PHP Extensions**: `pdo_mysql` / `pdo_mariadb`, `bcmath`, `ctype`, `fileinfo`, `json`, `mbstring`, `openssl`, `tokenizer`, `xml`, `sqlite3` (for testing)
 
-### 2. Install Dependencies & Setup App
+---
+
+## 3. Installation
+
+Clone the repository and install Composer dependencies:
+
 ```bash
+git clone https://github.com/Leon-2157/sora.git
 cd sora
 composer install
-php artisan key:generate
+```
+
+---
+
+## 4. Environment Setup
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Generate the unique application encryption key:
+   ```bash
+   php artisan key:generate
+   ```
+
+3. Configure your database credentials in `.env`:
+   ```env
+   APP_NAME=Sora
+   APP_ENV=local
+   APP_TIMEZONE=Asia/Jakarta
+   APP_URL=http://localhost:8000
+
+   DB_CONNECTION=mariadb
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=sora_db
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. Create the database in MariaDB / MySQL:
+   ```sql
+   CREATE DATABASE IF NOT EXISTS `sora_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ```
+
+---
+
+## 5. Migration & Seeding
+
+Run database migrations to generate all 8 business tables and seed the default accounts and demo catalog:
+
+```bash
 php artisan migrate --seed
 ```
 
-### 3. Start Development Server
+> **Note**: To completely reset the database and re-seed sample data, run:
+> ```bash
+> php artisan migrate:fresh --seed
+> ```
+
+To start the local development server:
 ```bash
 php artisan serve
 ```
-Open [http://localhost:8000](http://localhost:8000) in your web browser.
+Access the application at [http://localhost:8000](http://localhost:8000).
 
 ---
 
-## Default User Accounts
+## 6. Demo Accounts
 
-| Role | Email | Password | Permissions |
+The database seeder automatically creates two role-based user accounts:
+
+| Role | Email | Password | Permissions & Scope |
 |---|---|---|---|
-| **Administrator** | `admin@sora.test` | `password` | Full access (CRUD categories, suppliers, products, users, reports, approvals) |
-| **Cashier / Staff** | `staff@sora.test` | `password` | POS Quick Sale, view catalog & low stock, record sales & purchases |
+| **Administrator** | `admin@sora.test` | `password` | Full system access: manage categories, suppliers, catalog, user accounts, approve/cancel transactions, and view executive analytics. |
+| **Cashier / Staff** | `staff@sora.test` | `password` | Operational access: Point of Sale (POS) terminal, view product catalogue & low stock alerts, process sales and record purchase drafts. Restricted from administrative modules (HTTP 403). |
 
 ---
 
-## Architecture & Core Features
+## 7. Features
 
-1. **Point of Sale (POS) Terminal**:
-   - Interactive client-side product catalog with real-time text and category search.
-   - Dynamic cart panel with live quantity controls and stock protection.
-   - Single-click checkout that generates immutable sales receipts (`SAL-YYYYMMDD-XXXX`).
+- **Point of Sale (POS) Terminal**:
+  - Interactive 2-column cashier interface with instant product search (by Name/SKU) and category filtering.
+  - Reactive client-side cart with real-time stock limits, quantity adjustments, and subtotal calculation.
+  - Single-click checkout that atomically verifies stock, decrements inventory, and creates formatted sales receipts (`SAL-YYYYMMDD-XXXX`).
+  - Printable sales receipt with printable view (`window.print()`).
+- **Inventory & Transaction Lifecycle**:
+  - **Purchases (`PUR-YYYYMMDD-XXXX`)**: Multi-item procurement orders. Pending orders preserve inventory; completed orders atomically increment stock and update unit costs.
+  - **Sales (`SAL-YYYYMMDD-XXXX`)**: Real-time stock validation preventing overselling. Stock decrements atomically with `lockForUpdate()`.
+  - Transaction immutability: Completed transactions cannot be edited or cancelled (audit trail integrity).
+- **Low Stock Watchlist**:
+  - Dedicated monitoring view displaying items with current stock $\le$ minimum stock threshold.
+  - Calculates real-time **Deficit Gap** (`minimum_stock - stock`) with 1-click reorder shortcut to procurement.
+- **Executive Analytics Dashboard**:
+  - Real-time stat cards (Today's Sales, Monthly Sales, Daily Transactions, Active Products).
+  - Responsive Chart.js analytics: 7-day sales bar chart and 6-month revenue trend line.
+  - Top 5 selling products by quantity and revenue.
+- **Master Data Management (Admin only)**:
+  - Categories CRUD with deletion guard (cannot delete if products are attached).
+  - Suppliers CRUD with deletion guard (cannot delete if referenced in purchases).
+  - Products CRUD with automatic SKU uniqueness check and deletion protection.
+  - User accounts management with self-deletion and last-admin safeguards.
+- **Design System ("Organic Modern Commerce")**:
+  - Pure Vanilla CSS (`public/css/app.css`) using curated tokens (Sage `#81A186`, Cream `#FCFFD0`, Mustard `#C4AC46`, Brown `#574749`, Navy `#0C0F22`).
+  - WCAG 2.2 AA compliant contrast ratios.
+  - Permitted glassmorphism strictly limited to 4 floating surfaces (topbar, mobile sticky total, toast, login card).
+  - Client-side double-submit prevention on all forms.
 
-2. **Inventory Stock Lifecycle**:
-   - **Purchases (`PUR-YYYYMMDD-XXXX`)**: Pending purchases preserve stock; completed purchases atomically increase inventory and update purchase costs.
-   - **Sales (`SAL-YYYYMMDD-XXXX`)**: Real-time stock validation prevents overselling. Stock decrements atomically with `lockForUpdate()`.
+---
 
-3. **Role-Based Access Control**:
-   - Built-in `RoleMiddleware` protecting administrative routes (`/categories`, `/suppliers`, `/users`, `/products/create`).
-   - Staff is blocked with 403 Forbidden on restricted endpoints.
+## 8. Known Limitations
 
-4. **Analytics Dashboard**:
-   - Stat cards with real database values (Sales today, Sales this month, Daily transactions, Active products).
-   - Responsive Chart.js bar and line charts for 7-day revenue and 6-month trends.
-   - Top 5 selling products and Low Stock Watchlist.
-
-5. **Design System (Organic Modern Commerce)**:
-   - Vanilla CSS custom properties with strict contrast ratios.
-   - Permitted glassmorphism on 4 floating surfaces only (topbar, mobile sticky total, toast, login card).
-   - Double-submit prevention and tabular numbers on all financial amounts.
+1. **Light Theme Only**: The UI is intentionally crafted strictly for light mode; dark mode is out of scope per product specification.
+2. **Single Currency**: Currency formatting is exclusively configured for Indonesian Rupiah (`Rp 1.250.000`) using tabular figures.
+3. **Standalone Single-Store Scope**: Built for single-store / single-warehouse inventory; multi-warehouse distribution or transfer orders are not supported in this version.
+4. **Local Network / Online POS**: The POS terminal relies on direct connectivity to the local/intranet Laravel backend; offline-first IndexedDB synchronization is not implemented.
+5. **Direct / Cash Payments**: Payment processing assumes instant direct/cash transactions; automated third-party payment gateway integration (e.g., Midtrans, Xendit) is out of scope.
+6. **No External Bundler Required**: Does not require `npm run build` or Vite compiler; uses pure Vanilla CSS/JS directly served from `public/`.
 
 ---
 
 ## Running Automated Tests
 
-Run the complete feature and unit test suite:
+Run the complete automated test suite (14 tests covering Auth, Role RBAC guards, and Atomic Inventory Transactions):
+
 ```bash
-cd sora
 php artisan test
 ```
 
 ---
 
-## Documentation
+## Project Documentation
 
-Full architectural specifications and user journey maps:
-- [Architecture & ERD](file:///home/leon/Kuliah/Web/docs/ARCHITECTURE.md)
-- [Design System & UI Tokens](file:///home/leon/Kuliah/Web/docs/DESIGN.md)
-- [Product Requirements (PRD)](file:///home/leon/Kuliah/Web/docs/PRD.md)
-- [Task Breakdown](file:///home/leon/Kuliah/Web/docs/TASKS.md)
+Detailed design records and architectural specifications:
+- [System Architecture & ERD](docs/ARCHITECTURE.md)
+- [Design System & UI Tokens](docs/DESIGN.md)
+- [Product Requirements Document (PRD)](docs/PRD.md)
+- [Implementation Task Breakdown](docs/TASKS.md)
