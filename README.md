@@ -6,7 +6,7 @@ Dirancang dengan estetika **Organic Modern Commerce** (khusus tema terang/light 
 
 ---
 
-## 1. Gambaran Proyek
+## 1. Project Overview
 
 **Sora** adalah sistem inventaris dan kasir berbasis web menyeluruh (*end-to-end*) yang dirancang khusus untuk operasional ritel serta usaha kecil dan menengah (UMKM). Sistem ini menghubungkan alur kerja pengadaan barang (*procurement*) dengan penjualan kasir secara sinkron (*real-time*), dilengkapi kontrol akses berbasis peran (Admin & Kasir/Staff), serta analitik bisnis.
 
@@ -15,7 +15,7 @@ Dirancang dengan estetika **Organic Modern Commerce** (khusus tema terang/light 
 
 ---
 
-## 2. Persyaratan Sistem
+## 2. Requirements
 
 Sebelum menjalankan aplikasi, pastikan komputer Anda telah memenuhi persyaratan berikut:
 
@@ -26,7 +26,7 @@ Sebelum menjalankan aplikasi, pastikan komputer Anda telah memenuhi persyaratan 
 
 ---
 
-## 3. Panduan Instalasi
+## 3. Installation
 
 Clone repository dan pasang dependensi paket PHP menggunakan Composer:
 
@@ -38,7 +38,7 @@ composer install
 
 ---
 
-## 4. Konfigurasi Lingkungan (.env)
+## 4. Environment Setup
 
 1. **Import Database**:
    - Buka **phpMyAdmin** di browser Anda atau gunakan terminal.
@@ -76,7 +76,7 @@ composer install
 
 ---
 
-## 5. Migrasi & Data Awal
+## 5. Migration & Seeding
 
 Setelah mengimpor database dan menyesuaikan file `.env`, jalankan migrasi Laravel untuk memastikan seluruh tabel terdaftar:
 
@@ -98,7 +98,7 @@ Akses aplikasi melalui browser di: [http://localhost:8000](http://localhost:8000
 
 ---
 
-## 6. Akun Demo
+## 6. Demo Accounts
 
 Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masing:
 
@@ -109,7 +109,7 @@ Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masi
 
 ---
 
-## 7. Fitur Unggulan
+## 7. Features
 
 - **Point of Sale (POS) Terminal**:
   - Antarmuka kasir 2-kolom responsif dengan pencarian instan (berdasarkan Nama/SKU) serta filter kategori.
@@ -140,7 +140,7 @@ Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masi
 
 ---
 
-## 8. Batasan Sistem
+## 8. Known Limitations
 
 1. **Khusus Tema Terang (Light Theme Only)**: Desain antarmuka secara sengaja dibuat eksklusif untuk mode terang; mode gelap tidak disediakan sesuai spesifikasi desain awal.
 2. **Format Mata Uang Tunggal**: Pemformatan harga dikhususkan untuk Rupiah Indonesia (`Rp 1.250.000`) dengan tipografi angka tabular (*tabular figures*).
@@ -151,7 +151,7 @@ Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masi
 
 ---
 
-## Pengujian Otomatis
+## Running Automated Tests
 
 Jalankan seluruh rangkaian pengujian otomatis (14 skenario pengujian yang mencakup Autentikasi, Guard Otorisasi Role RBAC, serta Transaksi Atomik Inventaris):
 
@@ -161,6 +161,6 @@ php artisan test
 
 ---
 
-## Lisensi
+## License
 
 [MIT](LICENSE)
