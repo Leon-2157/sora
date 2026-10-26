@@ -1,4 +1,4 @@
-# Sora — Sistem Manajemen Inventaris & Penjualan (POS)
+# Sora — Inventory & Sales Management System
 
 Sistem Manajemen Inventaris & Penjualan (Point of Sale) berkinerja tinggi yang dibangun menggunakan **Laravel 11**, **MySQL 8 / MariaDB**, **Blade**, **Vanilla CSS**, dan **Chart.js**.
 
