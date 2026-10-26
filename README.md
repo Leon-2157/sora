@@ -6,7 +6,7 @@ Dirancang dengan estetika **Organic Modern Commerce** (khusus tema terang/light 
 
 ---
 
-## 1. Ikhtisar Proyek (Project Overview)
+## 1. Gambaran Proyek
 
 **Sora** adalah sistem inventaris dan kasir berbasis web menyeluruh (*end-to-end*) yang dirancang khusus untuk operasional ritel serta usaha kecil dan menengah (UMKM). Sistem ini menghubungkan alur kerja pengadaan barang (*procurement*) dengan penjualan kasir secara sinkron (*real-time*), dilengkapi kontrol akses berbasis peran (Admin & Kasir/Staff), serta analitik bisnis.
 
@@ -15,18 +15,18 @@ Dirancang dengan estetika **Organic Modern Commerce** (khusus tema terang/light 
 
 ---
 
-## 2. Persyaratan Sistem (Requirements)
+## 2. Persyaratan Sistem
 
 Sebelum menjalankan aplikasi, pastikan komputer Anda telah memenuhi persyaratan berikut:
 
 - **PHP**: Versi 8.2 atau lebih baru (telah diuji pada PHP 8.5)
 - **Composer**: Versi 2.x
-- **Database**: MySQL 8.0+ atau MariaDB 10.11+ (dapat dikelola lewat phpMyAdmin / Podman / Native)
+- **Database**: MySQL 8.0+ atau MariaDB 10.11+
 - **Ekstensi PHP**: `pdo_mysql` / `pdo_mariadb`, `bcmath`, `ctype`, `fileinfo`, `json`, `mbstring`, `openssl`, `tokenizer`, `xml`, `sqlite3` (untuk pengujian otomatis)
 
 ---
 
-## 3. Instalasi (Installation)
+## 3. Panduan Instalasi
 
 Clone repository dan pasang dependensi paket PHP menggunakan Composer:
 
@@ -38,7 +38,7 @@ composer install
 
 ---
 
-## 4. Konfigurasi Lingkungan & Database (Environment Setup)
+## 4. Konfigurasi Lingkungan (.env)
 
 1. **Import Database**:
    - Buka **phpMyAdmin** di browser Anda atau gunakan terminal.
@@ -76,7 +76,7 @@ composer install
 
 ---
 
-## 5. Migrasi & Menjalankan Server (Migration & Seeding)
+## 5. Migrasi & Data Awal
 
 Setelah mengimpor database dan menyesuaikan file `.env`, jalankan migrasi Laravel untuk memastikan seluruh tabel terdaftar:
 
@@ -98,20 +98,20 @@ Akses aplikasi melalui browser di: [http://localhost:8000](http://localhost:8000
 
 ---
 
-## 6. Akun Demo (Demo Accounts)
+## 6. Akun Demo
 
 Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masing:
 
 | Peran (Role) | Email | Password | Hak Akses & Cakupan |
 |---|---|---|---|
 | **Administrator** | `admin@sora.test` | `password` | Akses penuh sistem: mengelola kategori, supplier, produk, akun pengguna, persetujuan/pembatalan transaksi, dan analitik eksekutif. |
-| **Kasir / Staff** | `staff@sora.test` | `password` | Akses operasional: terminal POS (Point of Sale), melihat katalog & peringatan stok menipis, memproses penjualan kasir, dan mencatat draf pembelian. Dibatasi dari menu administratif (HTTP 403). |
+| **Cashier / Staff** | `staff@sora.test` | `password` | Akses operasional: terminal POS (Point of Sale), melihat katalog & peringatan stok menipis, memproses penjualan kasir, dan mencatat draf pembelian. Dibatasi dari menu administratif (HTTP 403). |
 
 ---
 
-## 7. Fitur Utama (Features)
+## 7. Fitur Unggulan
 
-- **Terminal Kasir POS Cepat (Point of Sale)**:
+- **Point of Sale (POS) Terminal**:
   - Antarmuka kasir 2-kolom responsif dengan pencarian instan (berdasarkan Nama/SKU) serta filter kategori.
   - Keranjang belanja reaktif dengan proteksi batas stok *real-time*, pengatur kuantitas (`+`/`-`), dan hitungan subtotal otomatis.
   - Checkout satu tombol yang memverifikasi stok, memotong inventaris secara atomik, dan membuat struk penjualan (`SAL-YYYYMMDD-XXXX`).
@@ -140,7 +140,7 @@ Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masi
 
 ---
 
-## 8. Batasan Sistem (Known Limitations)
+## 8. Batasan Sistem
 
 1. **Khusus Tema Terang (Light Theme Only)**: Desain antarmuka secara sengaja dibuat eksklusif untuk mode terang; mode gelap tidak disediakan sesuai spesifikasi desain awal.
 2. **Format Mata Uang Tunggal**: Pemformatan harga dikhususkan untuk Rupiah Indonesia (`Rp 1.250.000`) dengan tipografi angka tabular (*tabular figures*).
@@ -151,7 +151,7 @@ Database telah dilengkapi dengan dua akun pengguna berdasarkan peran masing-masi
 
 ---
 
-## Menjalankan Pengujian Otomatis (Automated Tests)
+## Pengujian Otomatis
 
 Jalankan seluruh rangkaian pengujian otomatis (14 skenario pengujian yang mencakup Autentikasi, Guard Otorisasi Role RBAC, serta Transaksi Atomik Inventaris):
 
@@ -161,6 +161,6 @@ php artisan test
 
 ---
 
-## LISENSI (LICENSE)
+## Lisensi
 
 [MIT](LICENSE)
